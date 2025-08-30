@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Show do Crentão — Sobrenatural Church</title>
+  <title>Show do Crentão — Quiz</title>
   <meta name="theme-color" content="#000000" />
   <style>
     :root{
@@ -16,237 +16,429 @@
     html,body{height:100%;background:#000;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
     img{display:block;max-width:100%}
     .hidden{display:none !important}
-    header{position:fixed; inset:0 0 auto 0; height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 var(--pad); z-index:40; pointer-events:none; background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0));}
-    .brand, .right{pointer-events:auto; display:flex; align-items:center; gap:12px;}
-    .brand img{height:22px; opacity:.95}
-    .title-logo{height:26px; opacity:.96; filter: drop-shadow(0 2px 8px rgba(0,0,0,.45)); display:none;}
+
+    header{
+      position:fixed; inset:0 0 auto 0; height:56px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 var(--pad); z-index:40; pointer-events:none;
+      background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,0));
+    }
+    .brand,.right{pointer-events:auto;display:flex;align-items:center;gap:12px}
+    .brand img{height:22px;opacity:.95}
+    .title-logo{height:26px;opacity:.96;display:none;filter: drop-shadow(0 2px 8px rgba(0,0,0,.45));}
     @media (max-width:768px){ .title-logo{height:22px;} }
-    #hero{position:relative; min-height:100svh; display:flex; align-items:flex-end; justify-content:center; padding: calc(56px + 10svh) var(--pad) calc(20svh); background:#000; overflow:hidden; opacity:1; transform:none;}
+
+    #hero{
+      position:relative; min-height:100svh;
+      display:flex; align-items:flex-end; justify-content:center;
+      padding: calc(56px + 10svh) var(--pad) calc(20svh);
+      background:#000; overflow:hidden;
+    }
     #hero .bg{ position:absolute; inset:0; z-index:0; display:grid; place-items:center;}
-    #heroImg{ width:100%; height:100%; object-fit:cover; user-select:none; -webkit-user-drag:none; filter:none; }
-    @media (max-width: 768px){ #hero{padding: calc(56px + 6svh) var(--pad) calc(18svh);} #heroImg{ object-fit:contain; aspect-ratio:auto; object-position: center 70px; } }
-    #hero .cta{position:absolute; left:50%; transform:translateX(-50%); bottom: calc(12svh + env(safe-area-inset-bottom)); width:100%; max-width: min(780px, 92vw); display:flex; gap:14px; flex-wrap:wrap; justify-content:center; z-index:2;}
-    .btn{appearance:none; border:0; border-radius:18px; padding:18px 28px; font-weight:800; letter-spacing:.02em; text-transform:uppercase; cursor:pointer; box-shadow: var(--shadow); transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease, filter .2s ease;}
+    #heroImg{ width:100%; height:100%; object-fit:cover; user-select:none; -webkit-user-drag:none; }
+    @media (max-width: 768px){
+      #hero{padding: calc(56px + 6svh) var(--pad) calc(18svh);}
+      #heroImg{ object-fit:contain; aspect-ratio:auto; object-position: center 70px; }
+    }
+    #hero .cta{
+      position:absolute; left:50%; transform:translateX(-50%);
+      bottom: calc(12svh + env(safe-area-inset-bottom));
+      width:100%; max-width: min(780px, 92vw);
+      display:flex; gap:14px; flex-wrap:wrap; justify-content:center; z-index:2;
+    }
+
+    .btn{
+      appearance:none; border:0; border-radius:18px; padding:18px 28px;
+      font-weight:800; letter-spacing:.02em; text-transform:uppercase; cursor:pointer;
+      box-shadow: var(--shadow);
+      transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease, filter .2s ease;
+    }
     .btn:active{transform: translateY(1px); box-shadow: var(--shadow-soft);}
     .btn.primary{ background:linear-gradient(180deg, var(--green) 0%, var(--green-700) 100%); color:#06261f; }
     .btn.secondary{ background:var(--white); color:#0a0d0c }
     .btn.full{ flex:1 1 320px; }
+
     main{display:grid; gap:28px; padding:24px var(--pad) 48px; max-width:var(--maxw); margin:0 auto}
-    .card{background:rgba(12,15,15,.72); backdrop-filter: blur(6px); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); box-shadow:var(--shadow); padding: min(28px, 3.2vw);}
+    .card{
+      background:rgba(12,15,15,.72); backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,.06); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding: min(28px, 3.2vw);
+    }
     h2{margin:0 0 6px; font-size:22px}
     .sub{margin:0 0 14px; font-size:14px; color:#a7b1af}
     label{display:block; font-size:14px; margin:14px 0 6px; color:#cdd5d3}
-    input[type="text"], input[type="tel"]{width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:#0b0f0e; color:#fff; outline:none;}
+    input[type="text"]{
+      width:100%; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08);
+      background:#0b0f0e; color:#fff; outline:none;
+    }
     .help{font-size:13px; color:#93a29f; margin-top:10px}
     .row{display:flex; gap:12px; flex-wrap:wrap}
-    .row .btn{min-width:160px}
+    .row .btn{min-width:180px}
+
     #section-form, #section-quiz, #section-ranking{display:none}
+    #quizOpcoes label{display:flex;gap:10px;align-items:center;margin:10px 0}
+
     .confirm-box{ margin-top:14px; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:#0a0f0f; }
     .confirm-title{font-weight:800; margin-bottom:10px;}
     .helpbox{margin-top:12px; font-size:13px; color:#a7b1af}
-    #fxOverlay{ position:fixed; inset:0; pointer-events:none; z-index:60; }
-    .fx-ok::after{content:""; position:absolute; inset:0; margin:auto; width:min(55vmin,520px); height:min(55vmin,520px); border-radius:50%; background:radial-gradient(ellipse at center, rgba(31,221,172,.28), rgba(31,221,172,0) 60%); animation:okPulse .95s ease-out forwards;}
-    @keyframes okPulse{ 0%{transform:scale(.7); opacity:.0} 25%{opacity:.9} 100%{transform:scale(1.15); opacity:0} }
-    .fx-wrong{ animation:shake .6s ease-in-out 0s 1; }
-    .fx-wrong::after{content:""; position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(242,78,58,.18), rgba(242,78,58,0) 65%); animation:fadeOut .8s ease forwards;}
-    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
-    @keyframes fadeOut{ from{opacity:.9} to{opacity:0} }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <header>
-    <div class="brand"><img src="img/logo.png" alt="Sobrenatural Church" onerror="this.style.display='none'"></div>
-    <div class="right"><img id="crentaoLogo" class="title-logo" src="img/logosc.png" alt="Show do Crentão" /></div>
-  </header>
-  <section id="hero">
-    <div class="bg"><img id="heroImg" src="img/cover.png" alt="Capa – Show do Crentão"></div>
-    <div class="cta"><button id="btnStart" class="btn primary full">Iniciar</button><button id="btnRanking" class="btn secondary full">Ranking</button></div>
+
+<header>
+  <div class="brand">
+    <img src="img/logo.png" alt="Sobrenatural Church" onerror="this.style.display='none'">
+  </div>
+  <div class="right"><img id="crentaoLogo" class="title-logo" alt="Show do Crentão"></div>
+</header>
+
+<section id="hero">
+  <div class="bg"><img id="heroImg" alt="Capa – Show do Crentão" class="hidden"></div>
+  <div class="cta">
+    <button id="btnStart" class="btn primary full">Iniciar</button>
+    <button id="btnRanking" class="btn secondary full" onclick="location.href='ranking.html'">Ranking</button>
+  </div>
+</section>
+
+<main>
+  <!-- FORM -->
+  <section id="section-form" class="card">
+    <h2>Dados do participante</h2>
+    <label>Nome completo</label>
+    <input id="nome" type="text" placeholder="Ex.: Maria Silva">
+    <div class="help">Cada pessoa pode responder <strong>uma vez</strong> por evento.</div>
+    <div class="row" style="margin-top:16px">
+      <button id="btnEnviarDados" class="btn primary">Começar quiz</button>
+    </div>
   </section>
-  <main>
-    <section id="section-form" class="card">
-      <h2>Dados do participante</h2>
-      <label>Nome completo</label>
-      <input id="nome" type="text" placeholder="Ex.: Maria Silva">
-      <div class="help">Cada pessoa pode responder <strong>uma única vez</strong> por evento.</div>
-      <div class="row" style="margin-top:16px"><button id="btnEnviarDados" class="btn primary">Começar Quiz</button></div>
-    </section>
 
-    <section id="section-quiz" class="card">
-      <h2 id="quizPergunta">Pergunta</h2>
-      <p id="valorPergunta" class="sub"></p>
-      <div id="quizOpcoes"></div>
-      <div class="row" style="margin-top:14px">
-        <button id="btnResponder" class="btn primary">Enviar resposta</button>
-        <button id="btnParar" class="btn secondary">Parar agora</button>
-        <button id="btnPular" class="btn secondary">Pular</button>
+  <!-- QUIZ -->
+  <section id="section-quiz" class="card">
+    <h2 id="quizPergunta">Carregando…</h2>
+    <p id="valorPergunta" class="sub"></p>
+
+    <div class="row" id="lifelines" style="margin:6px 0 10px">
+      <button id="btnUni"  class="btn secondary">Universitários</button>
+      <button id="btn5050" class="btn secondary">50/50</button>
+      <button id="btnPular" class="btn secondary">Pular</button>
+    </div>
+    <div id="ajudaBox" class="helpbox hidden"></div>
+
+    <div id="quizOpcoes"></div>
+
+    <div id="confirmBox" class="confirm-box hidden">
+      <div class="confirm-title">Você tem certeza da resposta?</div>
+      <div class="row">
+        <button id="btnConfirmar" class="btn primary">Confirmar</button>
       </div>
-      <div id="ajudaBox" class="helpbox hidden"></div>
-    </section>
+    </div>
 
-    <section id="section-ranking" class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
-        <h2>Ranking</h2>
-        <a href="index.html" class="btn secondary">Voltar para a home</a>
+    <div id="posAcertoBox" class="confirm-box hidden">
+      <div class="confirm-title" id="posAcertoTitulo"></div>
+      <div class="row">
+        <button id="btnParar" class="btn secondary">Parar</button>
+        <button id="btnContinuar" class="btn primary">Continuar</button>
       </div>
-      <div id="rankingLista" class="help">Sem participantes por enquanto.</div>
-    </section>
-  </main>
+    </div>
 
-  <div id="fxOverlay" aria-hidden="true"></div>
+    <div class="row" id="actionRow" style="margin-top:16px">
+      <button id="btnResponder" class="btn primary">Enviar</button>
+      <button id="btnLimpar" class="btn secondary">Limpar</button>
+    </div>
+  </section>
 
-<script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-const SUPA_URL = "https://ihajmegcdgwchxslnaep.supabase.co";
-const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImloYWptZWdjZGd3Y2h4c2xuYWVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0OTQzMTgsImV4cCI6MjA3MjA3MDMxOH0.WM36lA9n0PU9qd-DKdrWVB_UzGVXpsfJ984oHiXDU8Y";
-const supabase = createClient(SUPA_URL, SUPA_KEY);
+  <!-- “pós-jogo” -->
+  <section id="section-ranking" class="card">
+    <h2 id="fimTitulo">Fim do jogo</h2>
+    <p id="fimMsg" class="sub"></p>
+    <div class="row" style="margin-top:16px">
+      <button class="btn secondary" onclick="location.href='index.html'">Voltar ao início</button>
+      <button class="btn primary" onclick="location.href='ranking.html'">Ver ranking</button>
+    </div>
+  </section>
+</main>
 
-// refs
-const hero = document.getElementById('hero');
-const secForm = document.getElementById('section-form');
-const secQuiz = document.getElementById('section-quiz');
-const secRank = document.getElementById('section-ranking');
-const btnStart = document.getElementById('btnStart');
-const btnRanking = document.getElementById('btnRanking');
-const btnEnviar = document.getElementById('btnEnviarDados');
-const btnResponder = document.getElementById('btnResponder');
-const btnParar = document.getElementById('btnParar');
-const btnPular = document.getElementById('btnPular');
-const nome = document.getElementById('nome');
-const elPerg = document.getElementById('quizPergunta');
-const elSub = document.getElementById('valorPergunta');
-const elOps = document.getElementById('quizOpcoes');
-const ajudaBox = document.getElementById('ajudaBox');
+<script>
+(async function(){
+  /* ============ CONFIG SUPABASE ============ */
+  const SUPABASE_URL = "https://SEU-PROJETO.supabase.co";        // <-- TROQUE
+  const SUPABASE_ANON_KEY = "SUA-CHAVE-ANON";                    // <-- TROQUE
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// escada de "talentos"
-const ladder = [100,200,300,500,1000,2000,5000,10000,20000,50000,100000,200000,300000,500000,750000,1000000];
-const checkpoints = new Set([4,9,14]); // 5/10/15
+  /* ============ UI REFS ============ */
+  const hero = document.getElementById('hero');
+  const heroImg = document.getElementById('heroImg');
+  const crentaoLogo = document.getElementById('crentaoLogo');
 
-// estado
-let participante = null;
-let perguntas = []; // perguntas sorteadas na sessão
-let pool = [];      // pool remanescente (para pular)
-let idx = 0;        // índice da fase (0..15)
-let acertos = 0;    // quantas acertou
-let escolha = null; // 'a'|'b'|'c'|'d'
-let skipUsado = false; // uma vez só
+  const secForm = document.getElementById('section-form');
+  const secQuiz = document.getElementById('section-quiz');
+  const secFim  = document.getElementById('section-ranking');
 
-// navegação
-btnStart.onclick = ()=>{ hero.style.display='none'; secForm.style.display='block'; };
-btnRanking.onclick = ()=>{ hero.style.display='none'; secRank.style.display='block'; renderRanking(); };
+  const btnStart   = document.getElementById('btnStart');
+  const btnEnviarDados = document.getElementById('btnEnviarDados');
 
-btnEnviar.onclick = async ()=>{
-  const n = (nome.value||'').trim();
-  if(!n) { alert('Preencha seu nome.'); return; }
-  participante = { nome:n };
-  // carrega perguntas ativas do Supabase
-  const { data, error } = await supabase.from('perguntas').select('*').eq('ativa', true);
-  if(error){ alert('Erro ao carregar perguntas'); console.error(error); return; }
-  // embaralha e pega 16
-  pool = shuffle(data.slice());
-  perguntas = pool.splice(0,16); // tira 16 da pool
-  // inicia
-  secForm.style.display='none'; secQuiz.style.display='block';
-  idx = 0; acertos = 0; skipUsado = false; escolha = null;
-  renderPergunta();
-};
+  const nomeInput = document.getElementById('nome');
+  const elPerg = document.getElementById('quizPergunta');
+  const elSub  = document.getElementById('valorPergunta');
+  const elOps  = document.getElementById('quizOpcoes');
 
-btnResponder.onclick = ()=>{
-  if(escolha==null){ alert('Escolha uma alternativa.'); return; }
-  const p = perguntas[idx];
-  const ok = (escolha === (p.correta||'').toLowerCase());
-  if(ok){
-    acertos++;
-    // avançamos de fase
-    idx++;
-    if(idx >= perguntas.length){ return finalizar('fim'); }
-    escolha = null;
-    renderPergunta();
-  }else{
-    // errou: cai para o último checkpoint garantido
-    return finalizar('erro');
+  const ajudaBox = document.getElementById('ajudaBox');
+  const btnUni  = document.getElementById('btnUni');
+  const btn5050 = document.getElementById('btn5050');
+  const btnPular= document.getElementById('btnPular');
+
+  const actionRow = document.getElementById('actionRow');
+  const btnResp = document.getElementById('btnResponder');
+  const btnLimpar = document.getElementById('btnLimpar');
+
+  const confirmBox = document.getElementById('confirmBox');
+  const btnConf = document.getElementById('btnConfirmar');
+
+  const posBox = document.getElementById('posAcertoBox');
+  const posTitulo = document.getElementById('posAcertoTitulo');
+  const btnParar = document.getElementById('btnParar');
+  const btnContinuar = document.getElementById('btnContinuar');
+
+  const fimTitulo = document.getElementById('fimTitulo');
+  const fimMsg    = document.getElementById('fimMsg');
+
+  function hideAll(){ secForm.style.display='none'; secQuiz.style.display='none'; secFim.style.display='none'; }
+  function toggleLogo(show){ crentaoLogo.style.display = show ? '' : 'none'; }
+
+  // capa
+  (async function(){
+    const caps=['img/cover.png','img/cover.jpg','img/cover.webp','img/capa.png','img/capa.jpg','img/show-crentao-bg.png','img/show-crentao-bg.jpg','img/logosc.png'];
+    for (const src of caps){
+      const ok = await testaImagem(src);
+      if (ok){ heroImg.src=src; heroImg.classList.remove('hidden'); break; }
+    }
+  })();
+  function testaImagem(src){
+    return new Promise(r=>{
+      const i=new Image(); i.onload=()=>r(true); i.onerror=()=>r(false); i.src=src+'?v='+Date.now();
+    });
   }
-};
 
-btnParar.onclick = ()=>{
-  // parar SEM responder a atual: leva o último checkpoint garantido
-  finalizar('parou');
-};
+  btnStart.addEventListener('click', ()=>{
+    hero.style.transition='transform .35s ease, opacity .35s ease';
+    hero.style.transform='translateY(-8px)'; hero.style.opacity='0';
+    setTimeout(()=>{ hero.style.display='none'; hideAll(); toggleLogo(false); secForm.style.display='block'; }, 360);
+  });
 
-btnPular.onclick = ()=>{
-  if(skipUsado) return; // só 1 pulo
-  skipUsado = true;
-  // pular NÃO muda de fase: mantém idx e substitui a pergunta por outra do mesmo pool
-  if(pool.length===0){
-    // se não houver mais no pool, apenas reembaralha as que não foram respondidas
-    pool = shuffle(perguntas.slice(idx+1));
+  /* ================= QUIZ STATE ================= */
+  const ladder=[100,200,300,500,1000,2000,5000,10000,20000,50000,100000,200000,300000,500000,750000,1000000];
+  const safeIdx=new Set([4,9,14]); // checkpoints: 5/10/15
+  let participante = null;
+
+  // pools por nível (preenchidas via Supabase)
+  let poolFacil=[], poolMedio=[], poolDificil=[];
+  // roteiro: 3 fáceis, 3 médias, 10 difíceis (total 16)
+  const roteiro = ['F','F','F','M','M','M','D','D','D','D','D','D','D','D','D','D'];
+  let etapa = 0;            // 0..15 (índice da escada)
+  let escolha = null;       // índice 0..3 escolhido
+  let acertos = 0;
+  const lifelines = { uni:true, fifty:true, skip:true };
+
+  function setLifelineButtons(){
+    btnUni.disabled=!lifelines.uni;   btnUni.style.opacity=lifelines.uni?1:.5;
+    btn5050.disabled=!lifelines.fifty;btn5050.style.opacity=lifelines.fifty?1:.5;
+    btnPular.disabled=!lifelines.skip;btnPular.style.opacity=lifelines.skip?1:.5;
   }
-  // escolhe uma nova pergunta para esta fase
-  const nova = pool.shift();
-  if(nova){ perguntas[idx] = nova; }
-  escolha = null;
-  renderPergunta();
-};
+  function showActions(){ actionRow.classList.remove('hidden'); confirmBox.classList.add('hidden'); posBox.classList.add('hidden'); }
+  function showConfirm(){ actionRow.classList.add('hidden'); confirmBox.classList.remove('hidden'); posBox.classList.add('hidden'); }
+  function showPosAcerto(){ actionRow.classList.add('hidden'); confirmBox.classList.add('hidden'); posBox.classList.remove('hidden'); }
 
-function renderPergunta(){
-  const p = perguntas[idx];
-  if(!p){ return finalizar('fim'); }
-  // Título: APENAS o enunciado (sem "1 de 16")
-  elPerg.textContent = p.enunciado;
-  elSub.textContent = `Vale ${ladder[idx].toLocaleString('pt-BR')} talento(s)`;
-  ajudaBox.classList.add('hidden'); ajudaBox.innerHTML='';
-  elOps.innerHTML = '';
-  ['a','b','c','d'].forEach(k=>{
-    const txt = p[`opcao_${k}`];
-    if(txt){
-      const lab = document.createElement('label');
-      lab.style.cssText = 'display:flex;gap:10px;align-items:center;margin:10px 0';
-      lab.innerHTML = `<input type="radio" name="op" value="${k}"> <span>${txt}</span>`;
-      elOps.appendChild(lab);
+  /* ============ Supabase: perguntas + ranking ============ */
+  async function carregarPerguntas(){
+    const { data, error } = await supabase
+      .from('perguntas')
+      .select('*')
+      .eq('ativo', true)
+      .order('id', { ascending:true });
+
+    if(error){ alert('Erro ao carregar perguntas'); console.error(error); return; }
+
+    // Derivar nível por ID (1–3 fácil, 4–6 médio, >=7 difícil).
+    poolFacil  = data.filter(q => q.id <= 3);
+    poolMedio  = data.filter(q => q.id >= 4 && q.id <= 6);
+    poolDificil= data.filter(q => q.id >= 7);
+
+    // embaralhar cada pool
+    shuffle(poolFacil); shuffle(poolMedio); shuffle(poolDificil);
+  }
+
+  async function salvarRanking({nome, pontos, tesouro}){
+    const quando = new Date().toISOString();
+    const { error } = await supabase
+      .from('ranking')
+      .insert([{ nome, pontos, tesouro, quando }]);
+    if(error) console.error('Erro ao salvar ranking', error);
+  }
+
+  function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
+
+  /* ============ Fluxo do formulário ============ */
+  btnEnviarDados.addEventListener('click', async ()=>{
+    const n=(nomeInput.value||'').trim();
+    if(!n){ alert('Informe seu nome.'); return; }
+    participante = { nome:n };
+    await carregarPerguntas();
+    // valida pools suficientes
+    if(poolFacil.length < 3 || poolMedio.length < 3 || poolDificil.length < 10){
+      console.warn('Quantidade de perguntas abaixo do esperado. Ainda assim, o jogo vai usar o que houver disponível.');
+    }
+    iniciarQuiz();
+  });
+
+  /* ============ Motor do quiz ============ */
+  function iniciarQuiz(){
+    hideAll(); secQuiz.style.display='block'; toggleLogo(true);
+    etapa=0; escolha=null; acertos=0;
+    lifelines.uni=true; lifelines.fifty=true; lifelines.skip=true;
+    renderPergunta(); setLifelineButtons();
+  }
+
+  let perguntaAtual = null;
+  function obterDaPoolDoNivel(nivel){
+    const pool = (nivel==='F')?poolFacil : (nivel==='M')?poolMedio : poolDificil;
+    if(pool.length===0) return null;
+    return pool.shift(); // retira e retorna a próxima
+  }
+
+  function nivelAtual(){ return roteiro[Math.min(etapa, roteiro.length-1)]; }
+
+  function renderPergunta(){
+    // pega pergunta do nível atual (sem avançar etapa ainda)
+    perguntaAtual = obterDaPoolDoNivel(nivelAtual());
+    if(!perguntaAtual){
+      finalizar(false,false,true); // sem pergunta: encerra como erro técnico (trata como erro)
+      return;
+    }
+
+    // UI
+    elPerg.textContent = perguntaAtual.enunciado;
+    elSub.textContent  = `Vale ${ladder[etapa].toLocaleString('pt-BR')} talento(s) de sabedoria`;
+    elOps.innerHTML=''; ajudaBox.classList.add('hidden'); ajudaBox.innerHTML='';
+    showActions(); setLifelineButtons();
+
+    // monta alternativas
+    const ops = [perguntaAtual.a, perguntaAtual.b, perguntaAtual.c, perguntaAtual.d];
+    ops.forEach((txt,i)=>{
+      const li=document.createElement('label');
+      li.innerHTML=`<input type="radio" name="op" value="${i}"> <span>${txt}</span>`;
+      elOps.appendChild(li);
+    });
+    escolha=null;
+    elOps.querySelectorAll('input[name=op]').forEach(r=>r.addEventListener('change',()=>{escolha=+r.value;}));
+  }
+
+  // Lifelines
+  btnUni.addEventListener('click', ()=>{
+    if(!lifelines.uni) return;
+    lifelines.uni=false; setLifelineButtons();
+    const corretaIdx = letraParaIdx(perguntaAtual.correta);
+    let votos=[0,0,0,0];
+    let base=60+Math.floor(Math.random()*16); // 60–75% na correta
+    votos[corretaIdx]=base; let resto=100-base;
+    const idxs=[0,1,2,3].filter(i=>i!==corretaIdx);
+    idxs.forEach((i,k)=>{
+      const part = k<idxs.length-1 ? Math.floor(Math.random()*(resto-(idxs.length-1-k))) : resto;
+      votos[i]=part; resto-=part;
+    });
+    ajudaBox.innerHTML = 'Universitários: ' + votos.map((v,i)=>`<br>(${String.fromCharCode(65+i)}) ${v}%`).join('');
+    ajudaBox.classList.remove('hidden');
+  });
+
+  btn5050.addEventListener('click', ()=>{
+    if(!lifelines.fifty) return;
+    lifelines.fifty=false; setLifelineButtons();
+    const corretaIdx = letraParaIdx(perguntaAtual.correta);
+    const erradas=[0,1,2,3].filter(i=>i!==corretaIdx);
+    // remove 2 erradas random
+    while(erradas.length>1){
+      const remove=erradas.splice(Math.floor(Math.random()*erradas.length),1)[0];
+      const input=elOps.querySelector(`input[value="${remove}"]`);
+      if(input){ input.disabled=true; input.parentElement.style.opacity=.35; }
     }
   });
-  elOps.querySelectorAll('input[name=op]').forEach(r=>r.addEventListener('change',()=>{ escolha=r.value; }));
-}
 
-function calculaGarantido(){
-  // garantido depende do último checkpoint que JÁ PASSOU (acertos)
-  if(acertos===0) return 0;
-  if(acertos===ladder.length) return ladder[ladder.length-1];
-  let premio = 0;
-  for(let i=0;i<acertos;i++){ if(checkpoints.has(i)) premio = ladder[i]; }
-  return premio;
-}
+  btnPular.addEventListener('click', ()=>{
+    if(!lifelines.skip) return;
+    lifelines.skip=false; setLifelineButtons();
+    // PULAR mantém a fase: carrega OUTRA pergunta do MESMO nível
+    renderPergunta();
+  });
 
-async function finalizar(modo){
-  // modos: 'parou' | 'erro' | 'fim'
-  let tesouro = 0;
-  if(modo==='parou'){
-    tesouro = calculaGarantido();
-  }else if(modo==='erro'){
-    tesouro = calculaGarantido();
-  }else{ // fim (acertou todas)
-    tesouro = acertos===ladder.length ? ladder[ladder.length-1] : calculaGarantido();
+  // Responder
+  btnResp.addEventListener('click', ()=>{
+    if(escolha===null){ alert('Escolha uma alternativa.'); return; }
+    showConfirm();
+  });
+
+  btnConf.addEventListener('click', ()=>{
+    const corretaIdx = letraParaIdx(perguntaAtual.correta);
+    const ok = (escolha===corretaIdx);
+
+    if(ok){
+      acertos++;
+      // Oferecer PARAR/CONTINUAR
+      const ganhoAtual = ladder[etapa].toLocaleString('pt-BR');
+      posTitulo.textContent = `Acertou! Esta fase vale ${ganhoAtual}. Deseja PARAR agora (fica com o último checkpoint) ou CONTINUAR?`;
+      showPosAcerto();
+
+      btnParar.onclick = ()=> finalizar(true,false,false);
+      btnContinuar.onclick = ()=>{
+        etapa++;
+        if(etapa<ladder.length){ renderPergunta(); }
+        else { finalizar(false,false,false); }
+      };
+    } else {
+      finalizar(false,false,true);
+    }
+  });
+
+  btnLimpar.addEventListener('click', ()=>{
+    elOps.querySelectorAll('input[name=op]').forEach(r=>r.checked=false);
+    escolha=null;
+  });
+
+  function letraParaIdx(l){
+    const map={a:0,b:1,c:2,d:3,A:0,B:1,C:2,D:3};
+    return map[l] ?? 0;
   }
 
-  // salva no Supabase
-  try{
-    await supabase.from('ranking').insert([{ nome:participante.nome, pontos: acertos, tesouro }]);
-  }catch(e){ console.error(e); }
+  function calculaCheckpoint(){
+    if (acertos===0) return 0;
+    if (acertos===ladder.length) return ladder[ladder.length-1];
+    let premio=0;
+    for (let i=0;i<acertos;i++){ if(safeIdx.has(i)) premio=ladder[i]; }
+    return premio;
+  }
 
-  // mostra ranking
-  secQuiz.style.display='none'; secRank.style.display='block';
-  renderRanking();
-}
+  // finalizar(parouVoluntariamente, pulouNoFim, errou)
+  async function finalizar(parou=false, _pulouNoFim=false, errou=false){
+    let tesouro=0;
+    if (parou) {
+      // PARAR: fica com o último checkpoint anterior (não o valor da fase)
+      tesouro = calculaCheckpoint();
+      fimTitulo.textContent='Você decidiu parar!';
+      fimMsg.textContent = `Você garantiu ${tesouro.toLocaleString('pt-BR')} talento(s). Parabéns!`;
+    } else if (errou) {
+      tesouro = calculaCheckpoint();
+      fimTitulo.textContent='Não foi desta vez 😅';
+      fimMsg.textContent = `Você errou nesta fase. Seu prêmio é ${tesouro.toLocaleString('pt-BR')} talento(s). Tente novamente!`;
+    } else {
+      // concluiu todas
+      tesouro = ladder[ladder.length-1];
+      fimTitulo.textContent='CAMPEÃO! 🎉';
+      fimMsg.textContent = `Você concluiu todas as fases e levou ${tesouro.toLocaleString('pt-BR')} talento(s)!`;
+    }
 
-async function renderRanking(){
-  const box = document.getElementById('rankingLista');
-  const { data, error } = await supabase.from('ranking').select('*');
-  if(error){ box.textContent = 'Erro ao carregar ranking.'; console.error(error); return; }
-  if(!data || !data.length){ box.textContent = 'Sem participantes por enquanto.'; return; }
-  data.sort((a,b)=> b.tesouro - a.tesouro || b.pontos - a.pontos || a.quando - b.quando);
-  box.innerHTML = data.map((r,i)=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06)">${i+1}. ${r.nome} — ${Number(r.tesouro||0).toLocaleString('pt-BR')} talento(s) · ${r.pontos||0} acerto(s)</div>`).join('');
-}
-
-function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()* (i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+    await salvarRanking({ nome:participante.nome, pontos:acertos, tesouro });
+    hideAll(); toggleLogo(true); secFim.style.display='block';
+  }
+})();
 </script>
 </body>
 </html>
